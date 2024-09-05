@@ -29,7 +29,8 @@ public class ChatStack extends Stack {
 
     public ChatStack(final Construct parent, final String id, final StackProps props) {
         super(parent, id, props);
-                //create dynamodb table
+                
+        //connections table 
         var connectionsTable = Table.Builder.create(this, "ConnectionsTable")
         .tableName(String.format("%s-cdk ConnectionTable", Aws.STACK_NAME))
         .partitionKey(
@@ -124,7 +125,7 @@ public class ChatStack extends Stack {
             .build();
 
 
-        //users
+        //users table
         var usersTable = Table.Builder.create(this, "UsersTable")
         .tableName(String.format("%s-Users", Aws.STACK_NAME))
         .partitionKey(
@@ -135,6 +136,11 @@ public class ChatStack extends Stack {
             .build())
         .removalPolicy(RemovalPolicy.DESTROY)        
         .billingMode(BillingMode.PAY_PER_REQUEST)
+        .build();
+
+        CfnOutput.Builder.create(this, "UsersTable")
+        .description("DynamoDB users table")
+        .value(usersTable.getTableName())
         .build();
             
     }
