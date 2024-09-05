@@ -5,6 +5,7 @@ import software.constructs.Construct;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 
+import software.amazon.awscdk.Aws;
 import software.amazon.awscdk.CfnOutput;
 import software.amazon.awscdk.RemovalPolicy;
 import software.amazon.awscdk.Stack;
@@ -30,6 +31,7 @@ public class ChatStack extends Stack {
         super(parent, id, props);
                 //create dynamodb table
         var connectionsTable = Table.Builder.create(this, "ConnectionsTable")
+        .tableName(String.format("%s-cdk ConnectionTable", Aws.STACK_NAME))
         .partitionKey(
             Attribute            
             .builder()
@@ -120,6 +122,21 @@ public class ChatStack extends Stack {
         CfnOutput.Builder.create(this, "apiUrl")
             .value(chatApi.getApiEndpoint())
             .build();
+
+
+        //users
+        var usersTable = Table.Builder.create(this, "UsersTable")
+        .tableName(String.format("%s-Users", Aws.STACK_NAME))
+        .partitionKey(
+            Attribute            
+            .builder()
+            .name("UserId")
+            .type(AttributeType.STRING)                                
+            .build())
+        .removalPolicy(RemovalPolicy.DESTROY)        
+        .billingMode(BillingMode.PAY_PER_REQUEST)
+        .build();
+            
     }
 
     private Function createFunction(String name, String handler, String codePath){

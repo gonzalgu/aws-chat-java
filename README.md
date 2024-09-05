@@ -17,3 +17,17 @@ It is a [Maven](https://maven.apache.org/) based project, so you can open this p
  * `cdk docs`        open CDK documentation
 
 Enjoy!
+
+Single room chat, everything is broadcast to everyone else.
+Todo
+[] add user authentication
+- with cognito user pools.
+- regular users vs admins
+
+[] save conversations
+- messages table in dynamodb
+
+
+[] tests
+- unit tests
+- integration tests

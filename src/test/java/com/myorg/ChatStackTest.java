@@ -20,6 +20,6 @@ public class ChatStackTest {
             put("Runtime", "python3.12");
         }});
         template.resourceCountIs("AWS::Lambda::Function", 4);
-        template.resourceCountIs("AWS::DynamoDB::Table", 1);
+        template.resourceCountIs("AWS::DynamoDB::Table", 2);
     }
 }
